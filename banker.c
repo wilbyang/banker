@@ -64,6 +64,8 @@ int request_resources(int pid, int resources[])
 void release_resources(int pid, int resources[])
 {
     pthread_mutex_lock(&lock);
+    printf("pid %d is returning:\n", pid);
+    print_vector(resources, n_resources);
     vector_add(sys_available, resources, n_resources);
     vector_sub(held[pid], resources, n_resources);
     vector_add(need[pid], resources, n_resources);

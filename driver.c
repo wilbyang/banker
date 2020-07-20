@@ -136,7 +136,7 @@ void print_status()
 int main(int argc, char *argv[])
 {
     init(argc, argv);
-    print_status();
+    //print_status();
     int *thread_ids = (int *)malloc(sizeof(int) * n_processes);
     for (int k = 0; k < n_processes; k++)
     {
