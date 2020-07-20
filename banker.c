@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <pthread.h>
 #include <stdbool.h>
-#include <unistd.h>
 #include "util.h"
 extern pthread_mutex_t lock;
 
@@ -24,18 +23,23 @@ bool safe_detect();
  * */
 int request_resources(int pid, int resources[])
 {
+    printf("pid %d is requesting:\n", pid);
+    print_vector(resources, n_resources);
     pthread_mutex_lock(&lock);
     int ret;
-    bool safe = false;
+
 
     if (vector_compare(need[pid], resources, n_resources))
     {
         if (vector_compare(sys_available, resources, n_resources))
         {
+            printf("系统安全,进程可以执行!\n");
+
             vector_sub(sys_available, resources, n_resources);
             vector_add(held[pid], resources, n_resources);
             vector_sub(need[pid], resources, n_resources);
-            safe = safe_detect();
+//            safe = safe_detect();
+            ret = 0;
         }
         else
         {
@@ -46,20 +50,6 @@ int request_resources(int pid, int resources[])
     else
     {
         printf("程序所申请资源大于该程序所需资源，无法执行!\n");
-        ret = -1;
-    }
-
-    if (safe)
-    {
-        printf("系统安全,进程可以执行!\n");
-        ret = 0;
-    }
-    else
-    {
-        printf("系统不安全,进程无法执行!\n");
-        vector_add(sys_available, resources, n_resources);
-        vector_sub(held[pid], resources, n_resources);
-        vector_add(need[pid], resources, n_resources);
         ret = -1;
     }
 

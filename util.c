@@ -1,5 +1,6 @@
+#include <stdio.h>
 #include "util.h"
-int random_in_range(int nmax, int nmin)
+int random_in_range(int nmin, int nmax)
 {
     srand(time(NULL));
     int x = nmin + rand() % (nmax - nmin + 1);
@@ -41,5 +42,30 @@ void vector_sub(int *a, int *b, int len)
     {
         *(a + i) -= *(b + i);
         i++;
+    }
+}
+
+void print_vector(int *a, int length)
+{
+    for (int i = 0; i < length; i++)
+    {
+
+        printf("%d\t", a[i]);
+    }
+}
+
+void print_matrix(int **m, int p, int r)
+{
+    int i;
+    int j;
+
+    for (i = 0; i < p; i++)
+    {
+        printf("row: %d:\n", i);
+        for (j = 0; j < r; j++)
+        {
+            printf("%d\t", m[i][j]);
+        }
+        printf("\n");
     }
 }

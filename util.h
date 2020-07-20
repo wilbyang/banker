@@ -11,12 +11,12 @@
 #define ANSI_COLOR_MAGENTA "\x1b[35m"
 #define ANSI_COLOR_CYAN    "\x1b[36m"
 #define ANSI_COLOR_RESET   "\x1b[0m"
-int random_in_range(int nmax, int nmin);
-
+int random_in_range(int nmin, int nmax);
 bool vector_compare(int *a, int *b, int len);
 void vector_add(int *a, int *b, int len);
-
 void vector_sub(int *a, int *b, int len);
+void print_vector(int *a, int length);
+void print_matrix(int **m, int p, int r);
 
 
 #endif // UTIL_H

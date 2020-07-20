@@ -2,6 +2,7 @@
 #include <unistd.h>
 #include <stdbool.h>
 #include <stdio.h>
+#include <pthread.h>
 #include "util.h"
 extern int n_resources;
 extern int request_resources(int pid, int resources[]);
@@ -20,7 +21,7 @@ void *run(void *arg)
       Sleep a random amount*/
     
     int process_identifier = *(int *)arg;
-    printf("I am running, pid is %d", process_identifier);
+    printf("I am running, pid is %d\n", process_identifier);
     int *requests = (int *)malloc(sizeof(int) * n_resources);
     for (int j = 0; j < n_resources; j++)
     {
@@ -36,4 +37,5 @@ void *run(void *arg)
 
     release_resources(process_identifier, requests);
     sleep(random_in_range(1, 3));
+    pthread_exit(NULL);
 }

@@ -25,12 +25,13 @@ int *sys_available;
 int **held;
 int **max;
 int **need;
-pthread_mutex_t lock;
+
+int *a;
+pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER;
 pthread_t *tids;
 extern void *run(void *arg);
 extern int request_resources(int pid, int resources[]);
 extern void release_resources(int pid, int resources[]);
-void print_vector(int *a, int length);
 
 void init(int argc, char *argv[])
 {
@@ -65,11 +66,11 @@ void init(int argc, char *argv[])
     sys_available = (int *)malloc(sizeof(int) * n_resources);
     for (int i = 0; i < n_resources; i++)
     {
-        printf("%d\t", atoi(argv[i + 4]));
+
         sys_available[i] = atoi(argv[i + 4]);
+        printf("%d\t", sys_available[i]);
     }
-    printf("\nsys_available:\n");
-    print_vector(sys_available, n_resources);
+
 
     tids = (pthread_t *)malloc(sizeof(pthread_t) * n_processes);
 
@@ -91,11 +92,10 @@ void init(int argc, char *argv[])
         max[i] = (int *)malloc(sizeof(int) * n_resources);
         for (int j = 0; j < n_resources; j++)
         {
-            srand(time(NULL));
-            int num = random_in_range(16, 32);
+            int num = random_in_range(6, 16);
             while (num > sys_available[j])
             {
-                num = random_in_range(16, 32);
+                num = random_in_range(6, 16);
             }
             max[i][j] = num;
         }
@@ -110,48 +110,49 @@ void init(int argc, char *argv[])
     }
 }
 
-void print_vector(int *a, int length)
-{
-    printf("xxhh");
 
-    for (int i = 0; i < length; i++)
-    {
-        printf("%d", a[i]);
-    }
-}
-void print_matrix(int **m, int p, int r)
-{
-    int i;
-    int j;
 
-    for (i = 0; i < p; i++)
-    {
-        printf("row: %d:\n", i);
-        for (j = 0; j < r; j++)
-        {
-            printf("%d", max[i][j]);
-        }
-    }
+void print_status()
+{
+    printf("\nsys_available:\n");
+
+    print_vector(sys_available, n_resources);
+
+    printf("\nmax:\n");
+    print_matrix(max, n_processes, n_resources);
+    printf("\nheld:\n");
+    print_matrix(held, n_processes, n_resources);
+    printf("\nneed:\n");
+    print_matrix(need, n_processes, n_resources);
 }
+void init1()
+{
+    a = (int *)malloc(sizeof(int) * 7);
+    for (int i = 0; i < 7; ++i)
+    {
+        a[i] =  i + 2;
+    }
+};
 /*
 In driver.c, process commandline arguments, create threads, and keep the simulation 
 running until there is only one process left.
 */
+
 int main(int argc, char *argv[])
 {
     init(argc, argv);
-    print_vector(sys_available, n_resources);
-    return 0;
+    print_status();
 
     for (int k = 0; k < n_processes; k++)
     {
-        printf("I am going to create thread");
+
         pthread_create(&(tids[k]), NULL, run, &k);
+        printf("I created thread %d\n", k);
     }
 
     /* now wait for the thread to exit */
     for (int i = 0; i < n_processes; i++)
-        pthread_join(tids[i], 0);
+        pthread_join(tids[i], NULL);
 
     printf(ANSI_COLOR_YELLOW "Reached the end of the program!\n" ANSI_COLOR_RESET);
     pthread_mutex_destroy(&lock);
