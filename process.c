@@ -22,12 +22,13 @@ void *run(void *arg)
     int process_identifier = *(int *)arg;
     printf("I am running, pid is %d\n", process_identifier);
     int *requests = (int *)malloc(sizeof(int) * n_resources);
-    for (int j = 0; j < n_resources; j++)
-    {
-        requests[j] = random_in_range(2, 9);
-    }
+
     while (true)
     {
+        for (int j = 0; j < n_resources; j++)
+        {
+            requests[j] = random_in_range(2, 9);
+        }
         int ret = request_resources(process_identifier, requests);
         sleep(random_in_range(1, 3));
         if (ret == 0)
