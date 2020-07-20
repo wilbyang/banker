@@ -8,18 +8,17 @@ extern int n_resources;
 extern int request_resources(int pid, int resources[]);
 extern void release_resources(int pid, int resources[]);
 
+
+/**
+ * Request some resources less than (max – held)
+ * Sleep a random amount
+ * Release subset of held resources
+ * Sleep a random amount
+ * @param arg
+ * @return
+ */
 void *run(void *arg)
 {
-
-    /**
- * Request some resources less than (max – held)
-
-      Sleep a random amount
-
-      Release subset of held resources
-
-      Sleep a random amount*/
-    
     int process_identifier = *(int *)arg;
     printf("I am running, pid is %d\n", process_identifier);
     int *requests = (int *)malloc(sizeof(int) * n_resources);

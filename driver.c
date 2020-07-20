@@ -125,18 +125,6 @@ void print_status()
     printf("\nneed:\n");
     print_matrix(need, n_processes, n_resources);
 }
-void init1()
-{
-    a = (int *)malloc(sizeof(int) * 7);
-    for (int i = 0; i < 7; ++i)
-    {
-        a[i] =  i + 2;
-    }
-};
-/*
-In driver.c, process commandline arguments, create threads, and keep the simulation 
-running until there is only one process left.
-*/
 
 int main(int argc, char *argv[])
 {
@@ -158,7 +146,7 @@ int main(int argc, char *argv[])
     for (int i = 0; i < n_processes; i++)
         pthread_join(tids[i], NULL);
 
-    printf(ANSI_COLOR_YELLOW "Reached the end of the program!\n" ANSI_COLOR_RESET);
+    printf(ANSI_COLOR_YELLOW "Reached the end of the program!\n");
     pthread_mutex_destroy(&lock);
 
     return 0;
