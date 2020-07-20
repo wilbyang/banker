@@ -92,9 +92,11 @@ void init(int argc, char *argv[])
         max[i] = (int *)malloc(sizeof(int) * n_resources);
         for (int j = 0; j < n_resources; j++)
         {
+            srand(time(NULL));
             int num = random_in_range(6, 16);
             while (num > sys_available[j])
             {
+
                 num = random_in_range(6, 16);
             }
             max[i][j] = num;

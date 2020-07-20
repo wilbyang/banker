@@ -2,7 +2,7 @@
 #include "util.h"
 int random_in_range(int nmin, int nmax)
 {
-    srand(time(NULL));
+
     int x = nmin + rand() % (nmax - nmin + 1);
     return x;
 }

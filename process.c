@@ -22,7 +22,7 @@ void *run(void *arg)
     int process_identifier = *(int *)arg;
     printf("I am running, pid is %d\n", process_identifier);
     int *requests = (int *)malloc(sizeof(int) * n_resources);
-
+    srand(time(NULL));
     while (true)
     {
         for (int j = 0; j < n_resources; j++)

@@ -26,7 +26,11 @@ int request_resources(int pid, int resources[])
     printf("pid %d is requesting:\n", pid);
     print_vector(resources, n_resources);
     int ret;
-
+    for (int i = 0; i < n_processes; i++)
+    {
+        for (int j = 0; j < n_resources; j++)
+            need[i][j] = max[i][j] - held[i][j];
+    }
 
     if (vector_compare(need[pid], resources, n_resources))
     {
