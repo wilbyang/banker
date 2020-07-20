@@ -142,11 +142,15 @@ int main(int argc, char *argv[])
 {
     init(argc, argv);
     print_status();
-
+    int *thread_ids = (int *)malloc(sizeof(int) * n_processes);
+    for (int k = 0; k < n_processes; k++)
+    {
+        thread_ids[k] = k;
+    }
     for (int k = 0; k < n_processes; k++)
     {
 
-        pthread_create(&(tids[k]), NULL, run, &k);
+        pthread_create(&(tids[k]), NULL, run, &thread_ids[k]);
         printf("I created thread %d\n", k);
     }
 

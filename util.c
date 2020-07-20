@@ -52,6 +52,7 @@ void print_vector(int *a, int length)
 
         printf("%d\t", a[i]);
     }
+    printf("\n");
 }
 
 void print_matrix(int **m, int p, int r)

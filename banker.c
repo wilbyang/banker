@@ -23,9 +23,10 @@ bool safe_detect();
  * */
 int request_resources(int pid, int resources[])
 {
+
+    pthread_mutex_lock(&lock);
     printf("pid %d is requesting:\n", pid);
     print_vector(resources, n_resources);
-    pthread_mutex_lock(&lock);
     int ret;
 
 

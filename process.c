@@ -29,8 +29,8 @@ void *run(void *arg)
     }
     while (true)
     {
-        sleep(random_in_range(1, 3));
         int ret = request_resources(process_identifier, requests);
+        sleep(random_in_range(1, 3));
         if (ret == 0)
             break;
     }
