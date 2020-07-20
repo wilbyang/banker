@@ -15,12 +15,11 @@ extern void release_resources(int pid, int resources[]);
  * Release subset of held resources
  * Sleep a random amount
  * @param arg
- * @return
  */
 void *run(void *arg)
 {
     int process_identifier = *(int *)arg;
-    printf("I am running, pid is %d\n", process_identifier);
+
     int *requests = (int *)malloc(sizeof(int) * n_resources);
     srand(time(NULL));
     while (true)

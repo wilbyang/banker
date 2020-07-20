@@ -13,8 +13,6 @@ running until there is only one process left.
 #include <stdio.h>
 #include <stdlib.h>
 #include <pthread.h>
-#include <stdbool.h>
-#include <unistd.h>
 
 #include "util.h"
 
@@ -33,6 +31,10 @@ extern void *run(void *arg);
 extern int request_resources(int pid, int resources[]);
 extern void release_resources(int pid, int resources[]);
 
+
+/**
+ * initialization, just to split the init job from main func
+ */
 void init(int argc, char *argv[])
 {
     // ./bankers –n 2 -a 5 7 9
@@ -87,12 +89,13 @@ void init(int argc, char *argv[])
 
     // initialize the max matrix
     max = (int **)malloc(sizeof(int *) * n_processes);
+    srand(time(NULL));
     for (int i = 0; i < n_processes; i++)
     {
         max[i] = (int *)malloc(sizeof(int) * n_resources);
         for (int j = 0; j < n_resources; j++)
         {
-            srand(time(NULL));
+
             int num = random_in_range(6, 16);
             while (num > sys_available[j])
             {
@@ -113,7 +116,9 @@ void init(int argc, char *argv[])
 }
 
 
-
+/**
+ * serve as a dashboard to know the system status
+ */
 void print_status()
 {
     printf("\nsys_available:\n");
@@ -141,7 +146,7 @@ int main(int argc, char *argv[])
     {
 
         pthread_create(&(tids[k]), NULL, run, &thread_ids[k]);
-        printf("I created thread %d\n", k);
+        printf("thread %d is created\n", k);
     }
 
     /* now wait for the thread to exit */

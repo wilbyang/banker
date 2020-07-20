@@ -1,7 +1,7 @@
 CC=gcc
 
 main.o : driver.c process.c banker.c
-	$(CC) -lpthread driver.c process.c banker.c util.c -o banker
+	$(CC) driver.c process.c banker.c util.c -lpthread -o banker
 
 clean:
 	rm -f main
