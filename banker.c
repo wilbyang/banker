@@ -25,7 +25,7 @@ int request_resources(int pid, int resources[])
     pthread_mutex_lock(&lock);
     printf("pid %d is requesting:\n", pid);
     print_vector(resources, n_resources);
-    printf("remaining resources are:\n", pid);
+    printf("remaining resources are:\n");
     print_vector(sys_available, n_resources);
     int ret;
     for (int i = 0; i < n_processes; i++)
